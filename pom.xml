@@ -185,24 +185,8 @@
                     <execution>
                         <id>jacoco-check</id>
                         <goals>
-                            <goal>check</goal>
+                            <goal>report</goal>
                         </goals>
-                        <configuration>
-                            <rules>
-                                <rule>
-                                    <limits>
-                                        <limit>
-                                            <counter>BRANCH</counter>
-                                            <minimum>60%</minimum>
-                                        </limit>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <minimum>60%</minimum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -223,4 +207,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
