@@ -19,6 +19,7 @@ public class SimpleTask implements Runnable {
   @Override
   public void run() {
     IntStream.range(start, end)
-        .forEach(index -> output[index] = origin[index] / 2);
+        .forEach(index -> IntStream.range(index, origin.length)
+            .forEach( i -> output[index] += origin[i]));
   }
 }

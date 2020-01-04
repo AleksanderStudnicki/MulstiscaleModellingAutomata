@@ -11,21 +11,24 @@ import java.util.stream.IntStream;
 
 public class ThreadTester {
 
-  static ExecutorService exec = Executors.newFixedThreadPool(10);
+  static int threads = 40;
+  static ExecutorService exec = Executors.newFixedThreadPool(threads);
+  static int size = 150000;
 
-  public static void run() {
+
+  public static int[] multipleThreadsArrayOperations() {
 
     List<Future<?>> futures = new ArrayList<>();
-
-    int size = 10000;
 
     int[] arr = IntStream.range(0, size).toArray();
     int[] out = new int[size];
 
-    IntStream.range(0, 10)
+    long startTime = System.nanoTime();
+
+    IntStream.range(0, threads)
         .forEach(index -> {
-          int start = size / 10 * index;
-          int end = size / 10 * index + size / 10;
+          int start = size / threads * index;
+          int end = size / threads * index + size / threads;
           Future<?> f = exec.submit(new SimpleTask(arr, out, start, end));
           futures.add(f);
         });
@@ -38,8 +41,31 @@ public class ThreadTester {
       }
     }
 
-    System.out.println(Arrays.toString(arr));
-    System.out.println();
-    System.out.println(Arrays.toString(out));
+    long endTime = System.nanoTime();
+    long duration = (endTime - startTime) / 1000000;
+
+    System.out.println("Duration: " + duration + " millis");
+
+    exec.shutdown();
+
+    return out;
+  }
+
+  public static int[] singleThreadArrayOperations() {
+    int[] arr = IntStream.range(0, size).toArray();
+    int[] out = new int[size];
+
+    long startTime = System.nanoTime();
+
+    IntStream.range(0, size)
+        .forEach(index -> IntStream.range(index, size)
+            .forEach(i -> out[index] += arr[i]));
+
+    long endTime = System.nanoTime();
+    long duration = (endTime - startTime) / 1000000;
+
+    System.out.println("Duration: " + duration + " millis");
+
+    return out;
   }
 }
