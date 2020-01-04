@@ -5,41 +5,102 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>app.studnicki</groupId>
-    <artifactId>#APP</artifactId>
+    <artifactId>multiscale-modelling-automata</artifactId>
     <version>0.1</version>
-    <name>#NAME</name>
-    <description>#DESC</description>
-  
+    <name>Multiscale Modelling Automata</name>
+    <url>https://github.com/AleksanderStudnicki/MulstiscaleModellingAutomata</url>
+
     <properties>
-             <!-- https://maven.apache.org/general.html#encoding-warning -->
+        <!-- https://maven.apache.org/general.html#encoding-warning -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-             <!-- https://maven.apache.org/general.html#special-characters-site -->
+        <!-- https://maven.apache.org/general.html#special-characters-site -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.java.version>11</project.java.version>
         <maven.compiler.source>${project.java.version}</maven.compiler.source>
         <maven.compiler.target>${project.java.version}</maven.compiler.target>
-      <!-- see source for the plugins to verify if those can be skipped, they should IIRC -->
+        <!-- see source for the plugins to verify if those can be skipped, they should IIRC -->
         <maven.compiler.encoding>${project.build.sourceEncoding}</maven.compiler.encoding>
         <maven.resources.encoding>${project.build.sourceEncoding}</maven.resources.encoding>
-        <version.maven>3.5.3</version.maven>
-      <!-- plugin versions should go here, so below they can be omitted -->
-        <version.plugin.maven.enforcer>3.0.0-M2</version.plugin.maven.enforcer>
-        <version.plugin.maven.jar>3.1.0</version.plugin.maven.jar>
-        <version.plugin.maven.compiler>3.8.0</version.plugin.maven.compiler>
+        <version.maven>3.6.2</version.maven>
+        <!-- plugin versions should go here, so below they can be omitted -->
+        <version.plugin.maven.enforcer>3.0.0-M3</version.plugin.maven.enforcer>
+        <version.plugin.maven.jar>3.2.0</version.plugin.maven.jar>
+        <version.plugin.maven.compiler>3.8.1</version.plugin.maven.compiler>
         <version.plugin.maven.resources>3.1.0</version.plugin.maven.resources>
+        <version.plugin.maven.jacoco>0.8.5</version.plugin.maven.jacoco>
+        <version.plugin.maven.site>3.8.2</version.plugin.maven.site>
+        <version.plugin.maven.project-info-reports>3.0.0</version.plugin.maven.project-info-reports>
+        <version.plugin.maven.sonar>3.7.0.1746</version.plugin.maven.sonar>
+        <!-- plugins for reporting section -->
+        <version.plugin.maven.checkstyle>3.1.0</version.plugin.maven.checkstyle>
+        <version.plugin.maven.pmd>3.12.0</version.plugin.maven.pmd>
+        <version.plugin.maven.jxr>3.0.0</version.plugin.maven.jxr>
+        <version.plugin.maven.spotbugs>3.1.12.2</version.plugin.maven.spotbugs>
         <!-- dependencies versions -->
         <version.testng>7.1.0</version.testng>
+        <version.error_prone_core>2.3.4</version.error_prone_core>
     </properties>
 
     <dependencies>
-      <!-- https://mvnrepository.com/artifact/org.testng/testng -->
-      <dependency>
-          <groupId>org.testng</groupId>
-          <artifactId>testng</artifactId>
-          <version>${version.testng}/version>
-          <scope>test</scope>
-      </dependency>
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${version.testng}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <reporting>
+        <plugins>
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jxr-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${version.plugin.maven.jxr}</version>
+            </plugin>
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-checkstyle-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${version.plugin.maven.checkstyle}</version>
+                <configuration>
+                    <configLocation>google_checks.xml</configLocation>
+                    <failOnViolation>false</failOnViolation>
+                    <enableFilesSummary>false</enableFilesSummary>
+                </configuration>
+            </plugin>
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-pmd-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${version.plugin.maven.pmd}</version>
+                <configuration>
+                    <sourceEncoding>${project.reporting.outputEncoding}</sourceEncoding>
+                    <minimumTokens>100</minimumTokens>
+                    <targetJdk>${project.java.version}</targetJdk>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${version.plugin.maven.jacoco}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-maven-plugin -->
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${version.plugin.maven.spotbugs}</version>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <build>
         <plugins>
@@ -56,7 +117,7 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                <!-- helps with plugin versions, so you are more up-to-date -->
+                                    <!-- helps with plugin versions, so you are more up-to-date -->
                                     <version>${version.maven}</version>
                                 </requireMavenVersion>
                             </rules>
@@ -73,7 +134,7 @@
                         <index>true</index>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>#FQN of your MainClass</mainClass>
+                            <mainClass>app.studnicki.mmautomata.Main</mainClass>
                         </manifest>
                         <manifestEntries>
                             <mode>development</mode>
@@ -82,17 +143,83 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
-            </plugin>                 
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${version.plugin.maven.compiler}</version>
+                <configuration>
+                    <source>${project.java.version}</source>
+                    <target>${project.java.version}</target>
+                    <compilerArgs>
+                        <arg>-XDcompilePolicy=simple</arg>
+                        <arg>-Xplugin:ErrorProne</arg>
+                    </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>com.google.errorprone</groupId>
+                            <artifactId>error_prone_core</artifactId>
+                            <version>${version.error_prone_core}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-<!-- if diff enconding than UTF8 is needed: https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html -->
+                <!-- if diff enconding than UTF8 is needed: https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html -->
                 <version>${version.plugin.maven.resources}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${version.plugin.maven.jacoco}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <limits>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <minimum>60%</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <minimum>60%</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${version.plugin.maven.site}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${version.plugin.maven.project-info-reports}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${version.plugin.maven.sonar}</version>
             </plugin>
         </plugins>
     </build>
