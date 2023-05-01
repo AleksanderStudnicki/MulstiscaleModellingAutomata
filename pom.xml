@@ -37,7 +37,7 @@
         <version.plugin.maven.jxr>3.0.0</version.plugin.maven.jxr>
         <version.plugin.maven.spotbugs>3.1.12.2</version.plugin.maven.spotbugs>
         <!-- dependencies versions -->
-        <version.testng>7.1.0</version.testng>
+        <version.testng>7.7.0</version.testng>
         <version.error_prone_core>2.3.4</version.error_prone_core>
     </properties>
 
